@@ -11,7 +11,7 @@ Use the "downloadReports.py" Python script in this repository to automatically d
 Note: I have only tested this on Windows, but I suspect it should work on Mac and Linux too.
 ### Setup
 1. Download the "downloadReports.py" file. Click on the file in GitHub, then click the "Download raw file" button. Save the file anywhere on your computer.
-![Image explaining where download button is]("https://raw.githubusercontent.com/MattCloward/Download-Nebula-Reports-Automatically/refs/heads/main/download_github_file.png")
+![Image explaining where download button is]("https://github.com/MattCloward/Download-Nebula-Reports-Automatically/blob/main/download_github_file.png?raw=true")
 2. Install Python3 if you don't already have it (find a tutorial online).
 3. Open a command line terminal to the directory where you stored the "downloadReports.py" file (look up a tutorial).
 4. Install the "selenium" module using either of the following two commands:
