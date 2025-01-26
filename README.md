@@ -8,6 +8,7 @@ I hope these tutorials help you decide not to make the switch to Complete Genomi
 
 ## 1. Auto download Nebula Genomics reports
 If you only want the percentile results for your reports (minimum results), scroll to the bottom of the page until no new repots appear, then right-click, click save-as, then save it as an mhtml file.
+
 If you want your full results for each of your 350 reports, use the "downloadReports.py" Python script in this repository to automatically download all of Nebula Genomics' reports as PDFs. The script opens a Chrome window and simulates clicks to download all the reports while you continue to use your computer!
 Note: I have only tested this on Windows, but I suspect it should work on Mac and Linux too.
 ### Setup
