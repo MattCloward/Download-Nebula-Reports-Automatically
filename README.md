@@ -35,6 +35,7 @@ If for any reason the script is interrupted, you can pick up where you left off.
 2. It will take some time to download all reports because it's simulating user clicks and includes long pauses to ensure files are downloaded correctly.
 3. You can still use your computer while the script runs.
 4. If you don't have Chrome installed, edit the script and replace "Chrome" with your browser of choice.
+5. Disclaimer: I used ChatGPT to generate this code, iteratively testing its code and requesting new features.
 
 ## 2. Don't Switch to Complete Genomics: Use Nebula’s Tools in Your Browser for Free (Works For All CRAM and VCF Files)
 I use Nebula's Gene Analysis and Genome Browser tools a lot for my PhD research and was sad I'd be losing access to them. But I discovered today that you can still use them completely for free if you have your data saved on your computer. Here's how:
