@@ -1,4 +1,4 @@
-# Download-Nebula-Reports-Automatically
+# Download Nebula Reports Automatically
 Like many of you, I'm deeply upset that Nebula Genomics decided to change their name so they could cancel our lifetime subscriptions. After the way they've treated us, I have no interest in switching to their new platform and I don't intend to give them any more money. If you feel the same way, these tutorials are for you! I am assembling resources to smoothly break ties with them. These resources include:
 1. Tool to automatically download all 350 reports automatically as PDFs
 2. Tutorials for free access to their "Gene Analysis" and "Genome Browser" tools.
