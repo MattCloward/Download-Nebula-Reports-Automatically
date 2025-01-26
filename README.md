@@ -22,7 +22,7 @@ Note: I have only tested this on Windows, but I suspect it should work on Mac an
 ### Running the script
 1. Run the file using the following command: python3 downloadReports.py
 2. A Chrome window will open up to the login page for Nebula: enter your credentials and two-factor authentication (this is completely safe since only Nebula gets your credentials).
-3. After a few downloads, Chrome will ask you if you want to allow multiple downloads. Hit yes.
+3. After a few downloads, Chrome will ask you if you want to allow multiple downloads. Hit "Allow".
 4. Sit back and relax. Your reports are now downloading automatically!
 
 If for any reason the script is interrupted, you can pick up where you left off.
