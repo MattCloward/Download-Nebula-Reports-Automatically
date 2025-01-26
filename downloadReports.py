@@ -51,6 +51,8 @@ try:
                 # Skip studies until we find the last downloaded one
                 if study_name == last_downloaded_study:
                     resuming = False  # Found the last study; process subsequent studies
+                completed_reports.add(study_name)   
+                new_report_found = True
                 continue  # Skip this study
 
             # Skip already completed reports
@@ -73,7 +75,7 @@ try:
             for download_button in download_buttons:
                 if "DOWNLOAD AS PDF" in download_button.text:
                     download_button.click()
-                    time.sleep(7)
+                    time.sleep(5)
                     buttonFound = True
                     last_downloaded_study = study_name  # Update the last downloaded study
                     print(f"Downloaded: {study_name}")
