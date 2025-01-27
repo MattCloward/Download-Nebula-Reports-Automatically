@@ -94,7 +94,7 @@ try:
 
         # Scroll to the bottom of the page to load new reports
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(2)  # Allow time for new reports to load
+        time.sleep(3)  # Allow time for new reports to load
 
         # Exit the loop if no new reports are found unless resuming
         if not new_report_found and not resuming:
