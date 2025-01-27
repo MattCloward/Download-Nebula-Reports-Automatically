@@ -7,7 +7,7 @@ Like many of you, I'm deeply upset that Nebula Genomics decided to change their 
 I hope these tutorials help you decide not to make the switch to Complete Genomics. Feel free to ask me any questions by opening an issue on this repository, or emailing me at mattcloward@gmail.com
 
 ## 1. Auto download Nebula Genomics reports
-If you only want the percentile results for your reports (minimum results), scroll to the bottom of the page until no new repots appear, then right-click, click save-as, then save it as an mhtml file.
+If you only want the percentile results for your reports (minimum results), scroll to the bottom of the page until no new reports appear, then right-click, click save-as, then save it as an mhtml file. You can follow these steps to download your traits and microbiome data as well.
 
 If you want your full results for each of your 350 reports, use the "downloadReports.py" Python script in this repository to automatically download all of Nebula Genomics' reports as PDFs. The script opens a Chrome window and simulates clicks to download all the reports while you continue to use your computer!
 Note: I have only tested this on Windows, but I suspect it should work on Mac and Linux too.
