@@ -1,13 +1,17 @@
+import os
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 
 # Last downloaded study to resume from (keep empty to start from the beginning)
 last_downloaded_study = ""  # Set this to the last successfully downloaded study's name
 
 resuming = bool(last_downloaded_study)  # Indicates whether the script is resuming
+
+# Define the downloads folder (change this if needed)
+download_folder = os.path.expanduser("~/Downloads")
 
 # Setup the WebDriver (ensure you have the correct WebDriver for your browser)
 driver = webdriver.Chrome()  # Replace with your driver if using a different browser
@@ -17,6 +21,20 @@ login_url = "https://portal.nebula.org/reporting/library"
 
 # Set to track completed reports
 completed_reports = set()
+
+def wait_for_download_to_start(study_name, timeout=30):
+    """
+    Wait until a new file, or the downloaded file appears in the downloads directory
+    """
+    file_name = f"{study_name}.pdf"
+    initial_files = set(os.listdir(download_folder))
+    end_time = time.time() + timeout
+    while time.time() < end_time:
+        current_files = set(os.listdir(download_folder))
+        if current_files != initial_files or file_name in current_files:
+            return True
+        time.sleep(1)
+    return False
 
 try:
     # Navigate to the login page
@@ -75,10 +93,12 @@ try:
             for download_button in download_buttons:
                 if "DOWNLOAD AS PDF" in download_button.text:
                     download_button.click()
-                    time.sleep(5)
+                    if wait_for_download_to_start(study_name):
+                        print(f"{len(completed_reports)}. Downloaded: {study_name}")
+                        last_downloaded_study = study_name  # Update the last downloaded study
+                    else:
+                        print(f"Download did not start for: {study_name}")
                     buttonFound = True
-                    last_downloaded_study = study_name  # Update the last downloaded study
-                    print(f"{len(completed_reports)}. Downloaded: {study_name}")
                     break
             
             if not buttonFound:
@@ -94,11 +114,11 @@ try:
 
         # Scroll to the bottom of the page to load new reports
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(3)  # Allow time for new reports to load
 
-        # Exit the loop if no new reports are found unless resuming
-        if not new_report_found and not resuming:
-            break
+        # Exit the loop if the last report has been downloaded
+        if "Breast cancer (Michailidou, 2013)" in completed_reports:
+            if "Breast cancer (Michailidou, 2013).pdf" in set(os.listdir(download_folder)):
+                break
 
 finally:
     # Close the browser
