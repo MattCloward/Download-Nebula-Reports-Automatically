@@ -83,17 +83,18 @@ def process_reports(completed_reports):
         # Process each button if not already completed
         for button in view_buttons:
             try:
-                scroll_retries = 0  # Reset the scroll retries counter
                 # Get the study name from the associated "title-link"
                 study_name_element = button.find_element(By.XPATH, "./ancestor::div[@class='paper']//a[contains(@class, 'title-link')]")
                 study_name = study_name_element.text.strip()
 
                 # Check if the file is already downloaded
-                if is_file_downloaded(study_name, downloaded_files):
+                if is_file_downloaded(study_name, downloaded_files) or study_name in completed_reports:
                     if study_name not in completed_reports:
                         completed_reports.add(study_name)
                         logging.info(f"{len(completed_reports)}. Already Downloaded: {study_name}")
                     continue
+                
+                scroll_retries = 0  # Reset the scroll retries counter
 
                 # Click on the "View Full Report" button
                 button.click()
