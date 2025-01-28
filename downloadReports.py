@@ -5,11 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# Last downloaded study to resume from (keep empty to start from the beginning)
-last_downloaded_study = ""  # Set this to the last successfully downloaded study's name
-
-resuming = bool(last_downloaded_study)  # Indicates whether the script is resuming
-
 # Define the downloads folder (change this if needed)
 download_folder = os.path.expanduser("~/Downloads")
 
@@ -21,6 +16,13 @@ login_url = "https://portal.nebula.org/reporting/library"
 
 # Set to track completed reports
 completed_reports = set()
+
+def is_file_downloaded(study_name):
+    """
+    Check if the file is already downloaded
+    """
+    file_name = f"{study_name}.pdf"
+    return file_name in os.listdir(download_folder)
 
 def wait_for_download_to_start(study_name, timeout=30):
     """
@@ -65,24 +67,21 @@ try:
             study_name_element = button.find_element(By.XPATH, "./ancestor::div[@class='paper']//a[contains(@class, 'title-link')]")
             study_name = study_name_element.text.strip()
 
-            if resuming:
-                # Skip studies until we find the last downloaded one
-                if study_name == last_downloaded_study:
-                    resuming = False  # Found the last study; process subsequent studies
-                completed_reports.add(study_name)   
-                new_report_found = True
-                continue  # Skip this study
-
             # Skip already completed reports
             if study_name in completed_reports:
                 continue
-            
+
+            if is_file_downloaded(study_name):
+                completed_reports.add(study_name)
+                print(f"{len(completed_reports)}. Already Downloaded: {study_name}")
+                continue
+
             completed_reports.add(study_name)
             new_report_found = True
 
             # Click on the "View Full Report" button
             button.click()
-    
+
             # Wait for the popup to appear and locate the download buttons
             WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "share-button-download")))
             time.sleep(2)
@@ -100,25 +99,27 @@ try:
                         print(f"Download did not start for: {study_name}")
                     buttonFound = True
                     break
-            
+
             if not buttonFound:
                 print("Download button not found")
                 exit()
-    
+
             # Find and click the "fas fa-arrow-left" button to close the popup
             back_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "fas.fa-arrow-left")))
             back_button.click()
-    
+
             # Wait a moment before moving to the next button
             time.sleep(1)
 
         # Scroll to the bottom of the page to load new reports
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(2)  # Wait for new reports to load
 
-        # Exit the loop if the last report has been downloaded
-        if "Breast cancer (Michailidou, 2013)" in completed_reports:
-            if "Breast cancer (Michailidou, 2013).pdf" in set(os.listdir(download_folder)):
-                break
+        # Check if there are new reports loaded
+        new_view_buttons = driver.find_elements(By.XPATH, "//button[contains(text(), 'View Full Report')]")
+        if len(new_view_buttons) == len(view_buttons):
+            # If no new reports are loaded, exit the loop
+            break
 
 finally:
     # Close the browser
