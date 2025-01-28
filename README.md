@@ -18,22 +18,19 @@ Note: I have only tested this on Windows, but I suspect it should work on Mac an
 3. Open a command line terminal to the directory where you stored the "downloadReports.py" file (use a tutorial like [this one](https://youtu.be/bgSSJQolR0E?si=Vk4jdjUM1qSLwL-Q&t=46)).
 4. Install the "selenium" module using either of the following two commands:
 - pip install selenium
-- python3 -m pip install selenium
+- python -m pip install selenium
 ### Running the script
 1. Run the file using the following command: python3 downloadReports.py
 2. A Chrome window will open up to the login page for Nebula: enter your credentials and two-factor authentication (this is completely safe since only Nebula gets your credentials).
 3. After a few downloads, Chrome will ask you if you want to allow multiple downloads. Hit "Allow".
 4. Sit back and relax. Your reports are now downloading automatically!
 
-If for any reason the script is interrupted, you can pick up where you left off.
-1. Open "downloadReports.py" in a text editor.
-2. Between the quotation marks next to the "last_downloaded_study" variable, paste the name of the last PDF that was downloaded. ex: Corneal distrophy (Bryan R. Gorman, 2024)
-3. Run the script again and it will skip the studies already downloaded.
+If for any reason the script is interrupted, you can run it again and it will pick up where you left off. Thanks @usernamex!
 
 ### Notes:
 1. The combined 350 PDF files are about 2 GB. They will download to your downloads folder, but you can move them to a better place.
 2. It will take some time to download all reports because it's simulating user clicks and includes long pauses to ensure files are downloaded correctly.
-3. You can still use your computer while the script runs.
+3. You can still use your computer while the script runs, just don't minimize the browser or it may break.
 4. If you don't have Chrome installed, edit the script and replace "Chrome" with your browser of choice.
 5. Disclaimer: I used ChatGPT to generate this code, iteratively testing its code and requesting new features.
 
