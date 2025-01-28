@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 DOWNLOAD_FOLDER = os.path.expanduser("~/Downloads")
 
 # Number of downloads after which the page should be refreshed
-REFRESH_AFTER_DOWNLOADS = 100
+REFRESH_AFTER_DOWNLOADS = 50
 
 # Number of times to retry scrolling to the bottom of the page
 SCROLL_RETRIES = 2
