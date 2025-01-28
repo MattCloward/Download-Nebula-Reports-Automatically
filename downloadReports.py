@@ -33,29 +33,19 @@ driver = webdriver.Chrome(service=Service(), options=chrome_options)
 
 LOGIN_URL = "https://portal.nebula.org/reporting/library"
 
-# Set to track completed reports
-completed_reports = set()
-
-# Initialize the list of files in the download folder
-downloaded_files = set(os.listdir(DOWNLOAD_FOLDER))
-
-# Replace any " .pdf" with ".pdf" in downloaded_files
-downloaded_files = set(file_name.replace(" .pdf", ".pdf") for file_name in downloaded_files)
-
-def is_file_downloaded(study_name):
+def is_file_downloaded(study_name, downloaded_files):
     """Check if the file is already downloaded."""
     file_name = f"{study_name}.pdf"
     return file_name in downloaded_files
 
-def wait_for_download_to_start(study_name, timeout=30):
+def wait_for_download_to_start(study_name, downloaded_files, timeout=30):
     """Wait until a new file, or the downloaded file appears in the downloads directory."""
     file_name = f"{study_name}.pdf"
-    initial_files = downloaded_files.copy()
     end_time = time.time() + timeout
     while time.time() < end_time:
         current_files = set(os.listdir(DOWNLOAD_FOLDER))
         current_files = set(file_name.replace(" .pdf", ".pdf") for file_name in current_files)
-        if current_files != initial_files or file_name in current_files:
+        if current_files != downloaded_files or file_name in current_files:
             return True
         time.sleep(1)
     return False
@@ -79,6 +69,13 @@ def process_reports(completed_reports):
     """Process each report by clicking the 'View Full Report' button and downloading the PDF."""
     download_count = 0
     scroll_retries = 0
+
+    # Initialize the list of files in the download folder
+    downloaded_files = set(os.listdir(DOWNLOAD_FOLDER))
+
+    # Replace any " .pdf" with ".pdf" in downloaded_files
+    downloaded_files = set(file_name.replace(" .pdf", ".pdf") for file_name in downloaded_files)
+
     while True:
         # Find all "View Full Report" buttons
         view_buttons = driver.find_elements(By.XPATH, "//button[contains(text(), 'View Full Report')]")
@@ -92,7 +89,7 @@ def process_reports(completed_reports):
                 study_name = study_name_element.text.strip()
 
                 # Check if the file is already downloaded
-                if is_file_downloaded(study_name):
+                if is_file_downloaded(study_name, downloaded_files):
                     if study_name not in completed_reports:
                         completed_reports.add(study_name)
                         logging.info(f"{len(completed_reports)}. Already Downloaded: {study_name}")
@@ -111,7 +108,7 @@ def process_reports(completed_reports):
                 for download_button in download_buttons:
                     if "DOWNLOAD AS PDF" in download_button.text:
                         download_button.click()
-                        if wait_for_download_to_start(study_name):
+                        if wait_for_download_to_start(study_name, downloaded_files):
                             completed_reports.add(study_name)
                             logging.info(f"{len(completed_reports)}. Downloaded: {study_name}")
                             download_count += 1
@@ -162,6 +159,8 @@ def process_reports(completed_reports):
 
 try:
     login_and_wait_for_reports()
+    # Set to track completed reports
+    completed_reports = set()
     process_reports(completed_reports)
 
 finally:
