@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 DOWNLOAD_FOLDER = os.path.expanduser("~/Downloads")
 
 # Number of downloads after which the page should be refreshed
-REFRESH_AFTER_DOWNLOADS = 5
+REFRESH_AFTER_DOWNLOADS = 100
 
 # Setup the WebDriver with options
 chrome_options = Options()
