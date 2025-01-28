@@ -112,12 +112,12 @@ def process_reports(completed_reports):
                         if wait_for_download_to_start(study_name, downloaded_files):
                             completed_reports.add(study_name)
                             logging.info(f"{len(completed_reports)}. Downloaded: {study_name}")
-                            download_count += 1
-                            # Update the list of downloaded files
-                            downloaded_files = set(os.listdir(DOWNLOAD_FOLDER))
-                            downloaded_files = set(file_name.replace(" .pdf", ".pdf") for file_name in downloaded_files)
                         else:
                             logging.warning(f"Download did not start for: {study_name}")
+                        # Update the list of downloaded files
+                        downloaded_files = set(os.listdir(DOWNLOAD_FOLDER))
+                        downloaded_files = set(file_name.replace(" .pdf", ".pdf") for file_name in downloaded_files)
+                        download_count += 1
                         button_found = True
                         break
 
