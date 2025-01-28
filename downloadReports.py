@@ -17,11 +17,13 @@ DOWNLOAD_FOLDER = os.path.expanduser("~/Downloads")
 # Number of downloads after which the page should be refreshed
 REFRESH_AFTER_DOWNLOADS = 100
 
+# Number of times to retry scrolling to the bottom of the page
+SCROLL_RETRIES = 2
+
 # Setup the WebDriver with options
 chrome_options = Options()
 chrome_options.add_argument("--start-maximized")
 chrome_options.add_experimental_option("prefs", {
-    "download.default_directory": DOWNLOAD_FOLDER,
     "download.prompt_for_download": False,
     "download.directory_upgrade": True,
     "safebrowsing.enabled": True
@@ -33,7 +35,6 @@ LOGIN_URL = "https://portal.nebula.org/reporting/library"
 
 # Set to track completed reports
 completed_reports = set()
-download_count = 0
 
 # Initialize the list of files in the download folder
 downloaded_files = set(os.listdir(DOWNLOAD_FOLDER))
@@ -74,17 +75,18 @@ def login_and_wait_for_reports():
         except:
             time.sleep(1)  # Check every second if the element is available
 
-def process_reports():
+def process_reports(completed_reports):
     """Process each report by clicking the 'View Full Report' button and downloading the PDF."""
-    global download_count
+    download_count = 0
+    scroll_retries = 0
     while True:
         # Find all "View Full Report" buttons
         view_buttons = driver.find_elements(By.XPATH, "//button[contains(text(), 'View Full Report')]")
 
         # Process each button if not already completed
-        new_report_found = False
         for button in view_buttons:
             try:
+                scroll_retries = 0  # Reset the scroll retries counter
                 # Get the study name from the associated "title-link"
                 study_name_element = button.find_element(By.XPATH, "./ancestor::div[@class='paper']//a[contains(@class, 'title-link')]")
                 study_name = study_name_element.text.strip()
@@ -95,9 +97,6 @@ def process_reports():
                         completed_reports.add(study_name)
                         logging.info(f"{len(completed_reports)}. Already Downloaded: {study_name}")
                     continue
-
-                completed_reports.add(study_name)
-                new_report_found = True
 
                 # Click on the "View Full Report" button
                 button.click()
@@ -113,6 +112,7 @@ def process_reports():
                     if "DOWNLOAD AS PDF" in download_button.text:
                         download_button.click()
                         if wait_for_download_to_start(study_name):
+                            completed_reports.add(study_name)
                             logging.info(f"{len(completed_reports)}. Downloaded: {study_name}")
                             download_count += 1
                             # Update the list of downloaded files
@@ -153,12 +153,16 @@ def process_reports():
         # Check if there are new reports loaded
         new_view_buttons = driver.find_elements(By.XPATH, "//button[contains(text(), 'View Full Report')]")
         if len(new_view_buttons) == len(view_buttons):
-            # If no new reports are loaded, exit the loop
-            break
+            # If no new reports are loaded, try one more time to scroll to the bottom before exiting the loop
+            if scroll_retries >= SCROLL_RETRIES:
+                logging.info("No new reports found. Exiting...")
+                break
+            else:
+                scroll_retries += 1
 
 try:
     login_and_wait_for_reports()
-    process_reports()
+    process_reports(completed_reports)
 
 finally:
     # Close the browser
