@@ -4,7 +4,7 @@ Like many of you, I'm deeply upset that Nebula Genomics decided to change their 
 2. **Tutorials for free access to their "Gene Analysis" and "Genome Browser" tools.**
 3. **More resources to come...**
 
-I hope these tutorials help you decide not to make the switch to Complete Genomics. Feel free to ask me any questions by opening an issue on this repository, or emailing me at mattcloward@gmail.com
+I hope these tutorials help you decide not to make the switch to DNA Complete. Feel free to ask me any questions by opening an issue on this repository, or emailing me at mattcloward@gmail.com
 
 ## 1. Auto download Nebula Genomics reports
 If you only want the percentile results for your reports (minimum results), scroll to the bottom of the page until no new reports appear, then right-click, click save-as, then save it as an mhtml file. You can follow these steps to download your traits and microbiome data as well.
@@ -34,7 +34,7 @@ If for any reason the script is interrupted, you can run it again and it will pi
 4. If you don't have Chrome installed, edit the script and replace "Chrome" with your browser of choice.
 5. Disclaimer: I used ChatGPT to generate this code, iteratively testing its code and requesting new features.
 
-## 2. Don't Switch to Complete Genomics: Use Nebula’s Tools in Your Browser for Free (Works For All CRAM and VCF Files)
+## 2. Don't Switch to DNA Complete: Use Nebula’s Tools in Your Browser for Free (Works For All CRAM and VCF Files)
 I use Nebula's Gene Analysis and Genome Browser tools a lot for my PhD research and was sad I'd be losing access to them. But I discovered today that you can still use them completely for free if you have your data saved on your computer. Here's how:
 
 ### GENE ANALYSIS TOOL
