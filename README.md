@@ -14,9 +14,9 @@ Note: I have only tested this on Windows, but I suspect it should work on Mac an
 ### Setup
 1. Download the "downloadReports.py" file. Click on the file in GitHub, then click the "Download raw file" button. Save the file anywhere on your computer.
 ![Image explaining where download button is](download_github_file.png)
-2. Install Python3 if you don't already have it (find a tutorial online).
-3. Open a command line terminal to the directory where you stored the "downloadReports.py" file (use a tutorial like [this one](https://youtu.be/bgSSJQolR0E?si=Vk4jdjUM1qSLwL-Q&t=46)).
-4. Install the "selenium" module using either of the following two commands:
+2. Install Python if you don't already have it (find a tutorial online). Be sure to click the "add python.exe to PATH" checkbox during installation. If you forget to do this, follow [this tutorial](https://youtu.be/oa7YR5GpJ0A?si=8XlELefVJsiePIDP).
+4. Open a command line terminal to the directory where you stored the "downloadReports.py" file (use a tutorial like [this one](https://youtu.be/bgSSJQolR0E?si=Vk4jdjUM1qSLwL-Q&t=46)).
+5. Install the "selenium" module using either of the following two commands:
 - pip install selenium
 - python -m pip install selenium
 ### Running the script
